@@ -1,0 +1,54 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,16,38)
+  Icon = Picture["icon:/small/volume"]
+  Persistent = True
+  Resizable = False
+  Utility = True
+  SkipTaskbar = True
+  AutoResize = True
+  { ControlLeft Frame
+    MoveScaled(0,0,8,38)
+    Font = Font["Bold,-1"]
+    Text = ("LFE,0")
+    { SliderLeft Slider
+      MoveScaled(2.4286,4,3,30)
+      Step = 100
+    }
+    { ValueLeft Label
+      MoveScaled(2,34,4,4)
+      Font = Font["Bold,-1"]
+      Text = ("0")
+      Alignment = Align.Center
+    }
+    { Separator1 Separator
+      MoveScaled(1,3,6,1)
+    }
+  }
+  { ControlRight Frame
+    MoveScaled(8,0,8,38)
+    Font = Font["Bold,-1"]
+    Text = ("LFE")
+    { SliderRight Slider
+      MoveScaled(2,4,3,30)
+      Step = 100
+    }
+    { ValueRight Label
+      MoveScaled(1.5714,34,4,4)
+      Font = Font["Bold,-1"]
+      Text = ("0")
+      Alignment = Align.Center
+    }
+    { Separator2 Separator
+      MoveScaled(1,3,6,1)
+    }
+  }
+  { TrayIcon1 #TrayIcon
+    #MoveScaled(3,23)
+    Picture = Picture["icon:/small/volume"]
+  }
+  { Timer1 #Timer
+    #MoveScaled(3,16)
+  }
+}

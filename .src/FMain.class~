@@ -1,0 +1,160 @@
+' Gambas class file
+
+Public Min1 As Integer
+Public Min2 As Integer
+Public Max1 As Integer
+Public Max2 As Integer
+Public c As Integer = 0 ' card number
+
+
+Public Sub _new()
+  Print "---------------------------------------------------------"
+  Print "Usage:"
+  Print Application.Args[0] & " " & "Card Number Control1 Control2"
+  Print "Eg: " & Application.Args[0] & " " & "0 DAC,0 DAC,1"
+  Print "---------------------------------------------------------"
+  TrayIcon1.Show()
+  If Application.Args.count = 4 Then
+    c = Application.Args[1]
+    ControlLeft.text = Application.Args[2]
+    ControlRight.text = Application.Args[3]
+      Else
+    c = 0
+    ControlLeft.text = "DAC,0"
+    ControlRight.text = "DAC,1"
+  Endif
+  Print "Using Card with ID" & c
+  Print "Using Controls " & ControlLeft.text & " and " & ControlRight.text
+End
+
+Public Sub GetSetLimits()
+  Dim c1, c2, t, k As String
+  Dim minmax1 As New Integer[]
+  Dim minmax2 As New Integer[]
+  Shell "amixer -c " & c & " get '" & ControlLeft.text & "' " To c1
+  Shell "amixer -c " & c & " get '" & ControlRight.text & "' " To c2
+
+  For Each t In Split(c1, "\n", "", True)
+    If Lower(t) Like "*limits:*" Then
+      For Each k In Split(t, " ", "", True)
+        Try minmax1.Add(CInt(Trim(k)))
+      Next
+      Break
+    Endif
+  Next 't
+  For Each t In Split(c2, "\n", "", True)
+    If Lower(t) Like "*limits:*" Then
+      For Each k In Split(t, " ", "", True)
+        Try minmax2.Add(CInt(Trim(k)))
+      Next
+      Break
+    Endif
+  Next 't
+  SliderLeft.MinValue = minmax1[0] * 100
+  SliderLeft.MaxValue = minmax1[1] * 100
+  SliderRight.MinValue = minmax2[0] * 100
+  SliderRight.MaxValue = minmax2[1] * 100
+  Debug "Min1", SliderLeft.MinValue
+  Debug "Max1", SliderLeft.MaxValue
+  Debug "Min2", SliderRight.MinValue
+  Debug "Max2", SliderRight.MaxValue
+End
+
+Public Sub GetSetValues()
+  Dim c1, c2, t, k As String
+  Dim v1, v2 As Integer
+  Shell "amixer -c " & c & " get '" & ControlLeft.text & "' " To c1
+  Shell "amixer -c " & c & " get '" & ControlRight.text & "' " To c2
+  'Debug c1
+  'Debug c2
+  For Each t In Split(c1, "\n", "", True)
+    If Lower(t) Like "*%]*" Then
+      For Each k In Split(t, " ", "", True)
+        Try v1 = CInt(k)
+        If Not Error Then Break
+      Next
+      Break
+    Endif
+  Next 't
+  For Each t In Split(c2, "\n", "", True)
+    If Lower(t) Like "*%]*" Then
+      For Each k In Split(t, " ", "", True)
+        Try v2 = CInt(k)
+        If Not Error Then Break
+      Next
+      Break
+    Endif
+  Next 't
+  SliderLeft.value = CInt(v1) * 100
+  SliderRight.value = CInt(v2) * 100
+  Valueleft.text = sliderleft.value Div 100
+  Valueright.text = sliderright.value Div 100
+End
+
+Public Sub Form_Open()
+  GetSetLimits()
+  GetSetValues()
+End
+
+Public Sub SliderLeft_Change()
+  Dim percentvalue As String
+  Timer1.stop
+  percentvalue = CInt(100 / (SliderLeft.maxvalue - SliderLeft.minvalue) * SliderLeft.value) & "%"
+  Shell "amixer -q -c " & c & " set '" & ControlLeft.text & "' " & percentvalue
+  Debug percentvalue
+  Timer1.start
+  Valueleft.text = sliderleft.value Div 100
+End
+
+Public Sub SliderRight_Change()
+ Dim percentvalue As String
+  Timer1.stop
+  percentvalue = CInt(100 / (SliderRight.maxvalue - SliderRight.minvalue) * SliderRight.value) & "%"
+  Shell "amixer -q -c " & c & " set '" & ControlRight.text & "' " & percentvalue
+  Debug percentvalue
+  Timer1.start
+  Valueright.text = sliderright.value Div 100
+End
+
+
+
+Public Sub Timer1_Timer()
+  If Not FMain.visible Then Timer1.stop
+  Object.Lock(sliderleft)
+  Object.Lock(sliderright)
+  GetSetValues()
+  Object.unLock(sliderleft)
+  Object.unLock(sliderright)
+End
+
+Public hidefirst As Boolean = True
+Public Sub Form_Show()
+  Valueleft.SetFocus
+  Timer1.start
+  Wait
+  FMain.x = TrayIcon1.screenx - (FMain.w Div 2)
+  FMain.y = TrayIcon1.screeny - (FMain.h) - 35
+
+  If hidefirst Then 
+    FMain.hide
+    hidefirst = False
+  Endif
+End
+
+Public Sub TrayIcon1_MouseWheel()
+  Dim wasvisible As Boolean = FMain.visible
+  FMain.show
+  If Mouse.delta > 0 Then 
+    sliderleft.value += (((sliderleft.MaxValue - sliderleft.minvalue) / 100) * 10)
+    sliderright.value += (((sliderright.MaxValue - sliderright.minvalue) / 100) * 10) 
+      Else
+    sliderleft.value -= (((sliderleft.MaxValue - sliderleft.minvalue) / 100) * 10)
+    sliderright.value -= (((sliderright.MaxValue - sliderright.minvalue) / 100) * 10) 
+  Endif
+  Wait 1
+  If Not wasvisible Then FMain.hide
+End
+
+Public Sub TrayIcon1_MouseDown()
+  FMain.visible = Not FMain.visible
+End
