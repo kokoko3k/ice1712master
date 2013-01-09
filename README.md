@@ -11,6 +11,10 @@ Where
 
 (The above parameters are the default)
 
+if the application crashes with something like: 
+	FMain.GetSetLimits.54: #21: Out of bounds
+...it means there was a mistake with parameters (wrong card id, wrong controls name...)
+
 
 
 This application requires gambas and alsa-utils.
