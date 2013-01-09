@@ -19,8 +19,8 @@ Compiling it:
 -----------------------------
 After you installed gambas 3, just checkout and compile that way:
 
- git clone https://github.com/kokoko3k/ice1712master.git
- cd ice1712master
- /path/to/gambas/binaries/gbc3 -e -a -g -t -p -m
- /path/to/gambas/binaries/gba3
- ./ice1712master 
+- git clone https://github.com/kokoko3k/ice1712master.git
+- cd ice1712master
+- /path/to/gambas/binaries/gbc3 -e -a -g -t -p -m
+- /path/to/gambas/binaries/gba3
+- ./ice1712master 
