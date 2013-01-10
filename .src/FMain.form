@@ -45,7 +45,8 @@
     }
   }
   { TrayIcon1 #TrayIcon
-    #MoveScaled(3,23)
+    #MoveScaled(2,24)
+    Visible = True
     Picture = Picture["icon:/small/volume"]
   }
   { Timer1 #Timer

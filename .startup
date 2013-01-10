@@ -7,4 +7,14 @@ ice1712master
 gb.image
 gb.gui
 gb.form
+gb.complex
+gb.compress
+gb.crypt
+gb.data
+gb.db
+gb.db.form
+gb.db.mysql
+gb.db.odbc
+gb.db.postgresql
+gb.db.sqlite2
 

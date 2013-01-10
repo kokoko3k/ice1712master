@@ -25,6 +25,7 @@ Public Sub _new()
   Endif
   Print "Using Card with ID" & c
   Print "Using Controls " & ControlLeft.text & " and " & ControlRight.text
+  Print "---------------------------------------------------------"
 End
 
 Public Sub GetSetLimits()
@@ -94,6 +95,7 @@ End
 Public Sub Form_Open()
   GetSetLimits()
   GetSetValues()
+  Wait 0.5
 End
 
 Public Sub SliderLeft_Change()
@@ -158,3 +160,5 @@ End
 Public Sub TrayIcon1_MouseDown()
   FMain.visible = Not FMain.visible
 End
+
+

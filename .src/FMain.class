@@ -95,6 +95,7 @@ End
 Public Sub Form_Open()
   GetSetLimits()
   GetSetValues()
+  Sleep 1 'trayicon hack
 End
 
 Public Sub SliderLeft_Change()
@@ -159,3 +160,5 @@ End
 Public Sub TrayIcon1_MouseDown()
   FMain.visible = Not FMain.visible
 End
+
+

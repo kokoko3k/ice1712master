@@ -6,6 +6,7 @@
   Persistent = True
   Resizable = False
   Utility = True
+  SkipTaskbar = True
   AutoResize = True
   { ControlLeft Frame
     MoveScaled(0,0,8,38)
@@ -45,7 +46,8 @@
   }
   { TrayIcon1 #TrayIcon
     #MoveScaled(3,23)
-    Picture = Picture["icon:/small/volume"]
+    Visible = True
+    Picture = Picture["icon:/large/volume"]
   }
   { Timer1 #Timer
     #MoveScaled(3,16)
