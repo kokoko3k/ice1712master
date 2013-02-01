@@ -47,7 +47,7 @@
   { TrayIcon1 #TrayIcon
     #MoveScaled(2,24)
     Visible = True
-    Picture = Picture["icon:/small/volume"]
+    Picture = Picture["volume.png"]
   }
   { Timer1 #Timer
     #MoveScaled(3,16)

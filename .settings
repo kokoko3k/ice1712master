@@ -5,8 +5,8 @@ Count=0
 Count=0
 
 [OpenFile]
-Active=1
 File[1]=".src/FMain.class:100.14"
+Active=2
 File[2]=".src/FMain.form"
 Count=2
 
